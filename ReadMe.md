@@ -3,3 +3,4 @@
 - [dimensions metricsをcheckする](https://ga-dev-tools.appspot.com/dimensions-metrics-explorer/)
 - secrets.json は、google cloudのcredentialのoauthのものを使う
 - .env に環境変数としてVIEW_IDをいれる 
+- [Method: reports.batchGet  |  Analytics Reporting API v4](https://developers.google.com/analytics/devguides/reporting/core/v4/rest/v4/reports/batchGet)

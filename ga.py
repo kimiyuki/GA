@@ -53,13 +53,16 @@ def initialize_analyticsreporting():
 
 def get_report(analytics, sdate, edate):
     # Use the Analytics Service Object to query the Analytics Reporting API V4.
+    metrics = ['users', 'searchUniques', 'avgSearchResultViews']
+    dims = ['date', 'searchKeyword']
     return analytics.reports().batchGet(
         body={
             'reportRequests': [{
                 'viewId': VIEW_ID,
                 'dateRanges': [{ 'startDate': sdate, 'endDate': edate }],
-                'metrics': [{ 'expression': 'ga:'+ mt} for mt in ['users', 'sessions'] ],
-                "dimensions": [{'name':'ga:'+dim} for dim in ['date', 'deviceCategory', 'medium']] 
+                'metrics': [{ 'expression': 'ga:'+ mt} for mt in metrics ],
+                "dimensions": [{'name':'ga:'+dim} for dim in dims] ,
+                "pageSize": '100000' 
             }]
         }).execute()
 
@@ -75,7 +78,7 @@ def parse_response(response):
 
     for row in report.get('data', {}).get('rows', []):
         data.append(row.get('dimensions', []) + \
-                    [int(x) for x in row.get('metrics', {})[0].get('values', [])])
+                    [int(float(x)) for x in row.get('metrics', {})[0].get('values', [])])
 
     return data
 
